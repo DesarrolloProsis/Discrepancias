@@ -1,0 +1,221 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+
+}
+<link href="~/Content/Graficas/Loader.css" rel="stylesheet" />
+<script src="~/Scripts/kt.js"></script>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+
+            Outloader();
+                $("#Plazas").change(function () {
+                    var id = $(this).val();
+                    var params = { plaza: id };
+                miurl = '@Url.Action("InsertarPlaza", "Home")'
+                $.ajax({
+                    url: miurl,
+                    data: params,
+                    cache: false,
+                });
+                });
+                $("#datepicker").change(function () {
+                    var fecha = $("#datepicker").data("kendoDatePicker");
+                    var value = fecha.value();
+                    value = kendo.toString(value, "dd/MM/yyyy");
+                    var params = { date: value };
+
+                miurl = '@Url.Action("InsertarFecha", "Home")'
+                $.ajax({
+                    url: miurl,
+                    data: params,
+                    cache: false,
+                });
+                });
+                $("#datepicker2").change(function () {
+                    var fecha = $("#datepicker2").data("kendoDatePicker");
+                    var value = fecha.value();
+                    value = kendo.toString(value, "dd/MM/yyyy");
+                    var params = { date: value };
+
+                miurl = '@Url.Action("InsertarFecha2", "Home")'
+                $.ajax({
+                    url: miurl,
+                    data: params,
+                    cache: false,
+                });
+                });
+
+                $("#Carriles").change(function () {
+
+                    var id = $(this).val();
+                    var multi = $("#Carriles").data("kendoMultiSelect").value().toString();
+                    var params = { carril: multi };
+                    miurl = '@Url.Action("InsertarCarril", "Home")'
+
+                $.ajax({
+                    url: miurl,
+                    data: params,
+                    cache: false,
+                });
+                });
+
+                $("#Turnos").change(function () {
+                    var id = $(this).val();
+
+                    var params = { turno: id };
+                miurl = '@Url.Action("InsertarTurno", "Home")'
+                $.ajax({
+                    url: miurl,
+                    data: params,
+                    cache: false,
+                });
+            });
+
+            $("#DiscreNoValidas").change(function () {
+
+                miurl = '@Url.Action("DiscresValidas", "Home")'
+                $.ajax({
+                    url: miurl,
+                    data: {},
+                    cache: false,
+                });
+                });
+                filterproducts();
+        });
+
+
+            function filterProducts() {
+                return {
+                    IdPlaza: $("#Plazas").val()
+                };
+             }
+
+        function Outloader() {
+            /*Al terminar de cargar el sitio, primero se va la animación del Preloader*/
+            $("#loader").fadeOut();
+            /*Medio segundo despues, se va poco a poco el fondo del preloader*/
+            $("#loader-wrapper").delay(500).fadeOut("slow");
+        }
+
+        function Inloader() {
+            /*Al terminar de cargar el sitio, primero se va la animación del Preloader*/
+            $("#loader").fadeIn();
+            /*Medio segundo despues, se va poco a poco el fondo del preloader*/
+            $("#loader-wrapper").delay(500).fadeIn("slow");
+        }
+
+    </script>
+}
+
+
+
+<!--Cambios de diseño-->
+<h2 class="titles">Discrepancias</h2>
+
+<div class="card">
+
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-md-3">
+                <h4 class="titles">Fecha de consulta:@*<label style="color:red;"> *</label><sup style="color:red;"> @ViewBag.ValidaFecha</sup>*@</h4>
+
+                @(Html.Kendo().DatePicker().Name("datepicker").Max(DateTime.Now).Format("dd-MM-yyyy").HtmlAttributes(new { @class = "datepickerstyle" }))
+
+                @(Html.Kendo().DatePicker().Name("datepicker2").Max(DateTime.Now).Format("dd-MM-yyyy").HtmlAttributes(new { @class = "datepickerstyle" }))
+
+
+            </div>
+            <div class="col-md-3">
+                <h4 class="titles">Plaza:@*<label style="color:red;"> *</label><sup style="color:red;"> @ViewBag.ValidaPlaza</sup>*@</h4>
+                <script>
+                    function filterParams() {
+                        return {
+                            categories: $("#Plazas").val()
+                        };
+                    }
+
+                    function select(e) {
+                        var dropdownlist = $("#Plazas").data("kendoDropDownList");
+                        dropdownlist.select(e.item.index());
+                        var multiselect = $("#Carriles").data("kendoMultiSelect");
+                        multiselect.dataSource.read();
+                    };
+                </script>
+
+                @(Html.Kendo().DropDownList()
+                             .Name("Plazas")
+                             .HtmlAttributes(new { @class = "dropstyle dropplaza" })
+                             .OptionLabel("Seleccionar plaza...")
+                             .DataTextField("NombrePlaza")
+                             .DataValueField("ValorPlaza")
+                             .DataSource(source =>
+                             {
+                                 source.Read(read =>
+                                 {
+                                    read.Action("GetPlazas", "Home");
+                                 });
+                             })
+                             .Events(e => e.Select("select"))
+                )
+            </div>
+            <div class="col-md-3">
+                <h4 class="titles">Carriles:</h4>
+                @(Html.Kendo().MultiSelect()
+
+                                    .Name("Carriles")
+                                    .HtmlAttributes(new { @class = "dropstyle" })
+                                    .DataTextField("Value")
+                                    .DataValueField("Text")
+                                    .Placeholder("Seleciona carril...")
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read =>
+                                        {
+                                            read.Action("GetCarriles", "Home")
+                                            .Data("filterParams");
+
+                                        })
+                                        .ServerFiltering(true);
+
+                                    })
+                                    .AutoBind(false)
+                )
+            </div>
+            <div class="col-md-3">
+                <h4 class="titles">Turno:</h4>
+                @(Html.Kendo().DropDownList()
+                             .Name("Turnos")
+                             .HtmlAttributes(new { @class = "dropstyle" })
+                             .OptionLabel("Seleccionar turnos...")
+                             .DataTextField("NombreTurno")
+                             .DataValueField("ValorTurno")
+                             .DataSource(source =>
+                             {
+                                 source.Read(read =>
+                                 {
+                                     read.Action("GetTurnos", "Home");
+                                 });
+                             })
+                )
+            </div>
+            <div class="col-md-9">
+                <p class="paddingtop" style="padding-top: 10px;"> @*@Html.Kendo().CheckBox().Name("DiscreNoValidas").Label("¿Restar las discrepancias duplicadas de autobuses?")*@ </p>
+            </div>
+            <div class="col-md-3">
+
+                @Html.ActionLink("Ingresar", "CreacionTabla2", "Home", htmlAttributes: new { @class = "btn boton1 drop-res", @id = "clickme", onclick = "Inloader()" })
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div id="loader-wrapper">
+    <div id="loader"></div>
+</div>

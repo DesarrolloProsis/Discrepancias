@@ -1,0 +1,18 @@
+.car{
+    width: 50px;
+    height: auto;
+    animation: car 10s infinite linear;
+}
+
+@keyframes car {
+    from{margin-left: 0%;}
+    to{margin-left: 95%; opacity:0;
+    }
+}
+@-webkit-keyframes car {
+   from{margin-left: 0%;}
+    to{margin-left: 95%; opacity:0;
+    }}
+    
+
+
