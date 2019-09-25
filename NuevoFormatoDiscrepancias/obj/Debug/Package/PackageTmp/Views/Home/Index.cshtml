@@ -3,390 +3,172 @@
     ViewBag.Title = "Home Page";
 
 }
-<script src="~/Scripts/kt.js"></script>
-<link href="~/Content/Graficas/main.css" rel="stylesheet" />
-<link href="~/Content/Graficas/Loader.css" rel="stylesheet" />
-
-   
-<div class="container" style="padding-bottom: 4rem !important;">
-    <h1 class="display-4" style="text-align:center !important; font-size:4vw">Consulta de Discrepancias</h1>
-    <p style="text-align:center !important;">Realiza las búsqueda llenando los formularios correspondientes</p>
-    <hr class="my-4">
-
-
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card text-center ">
-                <div class="card-header">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-
-                        <li class="nav-item">
-                            <a class="nav-link botonpestaña" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Busqueda por Día</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Busqueda por Rango de Fecha</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content" id="myTabContent">
-
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <div>
-
-                                <div class="row justify-content-md-center">
-                                    <div class="col-md-12">
-
-                                        <div class="card">
-                                            <div class="card-body">
-
-                                                @using (Html.BeginForm("CreacionDeTabla", "Home", FormMethod.Post))
-                                                {
-                                                    @Html.AntiForgeryToken()
-
-                                                    <div class="col-md-12">
-                                                        <label style="float:left !important">Fecha Inicial</label>
-                                                        @Html.EditorFor(model => model.Fecha_Inicio)
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <label style="float:left !important">Plaza</label>
-                                                        @Html.DropDownListFor(x => x.Plaza, new SelectList(string.Empty, "Value", "Text"), htmlAttributes: new { @class = "form-control espacio" })
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <label style="float:left !important">Carriles</label>
-                                                        @Html.DropDownListFor(m => m.Frutas, new SelectList(string.Empty, "Value", "Text"), htmlAttributes: new { @class = "form-control espacio textoizquierda", @multiple = "multiple" })
-                                                    </div>
-
-                                                    <div class="col-md-12">
-                                                        <label style="float:left !important">Turnos</label>
-                                                        @Html.DropDownListFor(x => x.Turno, new SelectList(string.Empty, "Value", "Text"), htmlAttributes: new { @class = "form-control espacio" })
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <button type="submit" class="btn boton1 drop-res" id="clickme" onclick="Inloader()">Ingresar</button>
-                                                    </div>
-
-
-                                                }
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="Buscar Solo Por Fecha">
-                            <div>
-
-
-                                <div class="row justify-content-md-center">
-                                    <div class="col-md-12">
-
-                                        <div class="card">
-                                            <div class="card-body">
-                                                @using (Html.BeginForm("CreacionTabla2", "Home", FormMethod.Post))
-                                                {
-                                                    @Html.AntiForgeryToken()
-
-                                                    <div class="col-md-12">
-                                                        <label style="float:left !important">Fecha Inicial</label>
-                                                        @Html.EditorFor(model => model.Fecha1_Rango)
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <label style="float:left !important">Fecha Fin</label>
-                                                        @Html.EditorFor(model => model.Fecha2_Rango)
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <label style="float:left !important">Plaza</label>
-                                                        @Html.DropDownListFor(x => x.PlazaRango, new SelectList(string.Empty, "Value", "Text"), htmlAttributes: new { @class = "form-control espacio" })
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <label style="float:left !important">Carriles</label>
-                                                        @Html.DropDownListFor(m => m.FrutasRango, new SelectList(string.Empty, "Value", "Text"), htmlAttributes: new { @class = "form-control espacio textoizquierda", @multiple = "multiple" })
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <label style="float:left !important">Turnos</label>
-                                                        @Html.DropDownListFor(x => x.TurnoRango, new SelectList(string.Empty, "Value", "Text"), htmlAttributes: new { @class = "form-control espacio" })
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <button type="submit" class="btn boton1 drop-res" id="clickme" onclick="Inloader()">Ingresar</button>
-                                                    </div>
-                                                }
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="loader-wrapper">
-        <div id="loader"></div>
-    </div>
-
-
+<script src="~/Scripts/kt.js" ></script>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-
-
     <script>
         $(document).ready(function () {
 
-            Outloader();
-            LoadPlazas();
-            LoadTurnos();
-            IniciaMultiSelect();
-
-            $('#Plaza').change(function () {
-                var Plaza = $(this).val();
-                console.log(Plaza)
-                
-                $('#Frutas').multiselect('destroy');
-                LoadCarriles(Plaza)
-            });
-            $('#PlazaRango').change(function () {
-                var Plaza = $(this).val();
-                console.log(Plaza)
-                
-                
-                LoadCarrilesRango(Plaza)
-            });
-
-        });
-
-    </script>
-
-    <script>
-
-        function LoadCarriles(Plaza) {
-
-               $.ajax({
-                   url: '@Url.Action("GetCarriles", "Home")',
-                   type: "GET",
-                   data: { Plaza },
-                   cache: false,
-                   success: function (data) {
-                       $('#Frutas').empty();
-                       $('#Frutas').multiselect('destroy');
-                       $.each(data, function (i, row) {
-                           var $option = $('<option>');
-                           $option.val(row.Value);
-                           $option.html(row.Text);
-                           $('#Frutas').append($option);
-
-                       });
-
-                       $('#Frutas').multiselect({
-                           buttonText: function (options, select) {
-                               if (options.length === 0) {
-                                   return 'Seleccione un Carril';
-                               }
-                           },
-                           includeSelectAllOption: true,
-                           maxHeight: 200,
-                           buttonWidth: '100%',
-                           buttonClass: "form-control espacio textoizquierda",
-                           numberDisplayed: 8
-                       });
-
-                   },
-                    error: function (ex) {
-                        alert("Error!!!" + ex);
-                    },
-               });
-        }
-        function LoadCarrilesRango(Plaza) {
-
-               $.ajax({
-                   url: '@Url.Action("GetCarriles", "Home")',
-                   type: "GET",
-                   data: { Plaza },
-                   cache: false,
-                   success: function (data) {
-                       $('#FrutasRango').empty();
-                       $('#FrutasRango').multiselect('destroy');
-                       $.each(data, function (i, row) {
-                           var $option = $('<option>');
-                           $option.val(row.Value);
-                           $option.html(row.Text);
-                           $('#FrutasRango').append($option);
-
-                       });
-
-                       $('#FrutasRango').multiselect({
-                           buttonText: function (options, select) {
-                               if (options.length === 0) {
-                                   return 'Seleccione un Carril';
-                               }
-                           },
-                           includeSelectAllOption: true,
-                           maxHeight: 200,
-                           buttonWidth: '100%',
-                           buttonClass: "form-control espacio textoizquierda",
-                           numberDisplayed: 8
-                       });
-
-                   },
-                    error: function (ex) {
-                        alert("Error!!!" + ex);
-                    },
-               });
-        }
-
-            function LoadPlazas() {
-
+                $("#Plazas").change(function () {
+                    var id = $(this).val();
+                    var params = { plaza: id };
+                    miurl = '@Url.Action("InsertarPlaza", "Home")'
                 $.ajax({
-                    url: '@Url.Action("GetPlazas", "Home")',
-                    type: "GET",
-                    data: "{}",
+                    url: miurl,
+                    data: params,
                     cache: false,
-                    success: function (data) {
-                        console.log(data)
-                        $.each(data, function (i, row) {
-                            var $option = $('<option>');
-                            $option.val(row.Value);
-                            $option.html(row.Text);
-                            $('#Plaza').append($option);
-                        });
+                    });
+                });
+                $("#datepicker").change(function () {
+                    var fecha = $("#datepicker").data("kendoDatePicker");
+                    var value = fecha.value();
+                    value = kendo.toString(value, "dd/MM/yyyy");
+                    var params = { date: value };
 
-                        $.each(data, function (i, row) {
-                            var $option = $('<option>');
-                            $option.val(row.Value);
-                            $option.html(row.Text);
-                            $('#PlazaRango').append($option);
-                        });
-                    },
-                    error: function (ex) {
-                        alert("Error!!!" + ex);
-                    },
+                miurl = '@Url.Action("InsertarFecha", "Home")'
+                $.ajax({
+                    url: miurl,
+                    data: params,
+                    cache: false,
+                });
                 });
 
-
-            }
-
-
-
-
-
-
-        function IniciaMultiSelect() {
-
-            $('#Frutas').multiselect({
-                buttonText: function (options, select) {
-                    if (options.length === 0) {
-                        return 'Seleccione un Carril';
-                    }
-                },
-                includeSelectAllOption: true,
-                maxHeight: 200,
-                buttonWidth: '100%',
-                buttonClass: "form-control espacio textoizquierda",
-                numberDisplayed: 8
-            });
-
-            $('#FrutasRango').multiselect({
-                buttonText: function (options, select) {
-                    if (options.length === 0) {
-                        return 'Seleccione un Carril';
-                    }
-                },
-                includeSelectAllOption: true,
-                maxHeight: 200,
-                buttonWidth: '100%',
-                buttonClass: "form-control espacio textoizquierda",
-                numberDisplayed: 8
-            });
-        }
-
-
-
-            function LoadTurnos() {
+            $("#Carriles").change(function () {
+               
+                var id = $(this).val();
+                var multi = $("#Carriles").data("kendoMultiSelect").value().toString();
+                var params = { carril: multi };
+                    miurl = '@Url.Action("InsertarCarril", "Home")'
 
                 $.ajax({
-                    url: '@Url.Action("GetTurnos", "Home")',
-                    type: "GET",
-                    data: "{}",
+                    url: miurl,
+                    data: params,
                     cache: false,
-                    success: function (data) {
-                        console.log(data)
-                        $.each(data, function (i, row) {
-                            var $option = $('<option>');
-                            $option.val(row.Value);
-                            $option.html(row.Text);
-                            $('#Turno').append($option);
-                        });
-                        $.each(data, function (i, row) {
-                            var $option = $('<option>');
-                            $option.val(row.Value);
-                            $option.html(row.Text);
-                            $('#TurnoRango').append($option);
-                        });
-
-                    },
-                    error: function (ex) {
-                        alert("Error!!!" + ex);
-                    },
                 });
+            });
+         
 
 
-            }
+                $("#Turnos").change(function () {
+                    var id = $(this).val();
 
+                    var params = { turno: id };
+                miurl = '@Url.Action("InsertarTurno", "Home")'
+                $.ajax({
+                    url: miurl,
+                    data: params,
+                    cache: false,
+                });
+            });
 
+            $("#DiscreNoValidas").change(function () {
 
-
-
-    </script>
-
-
-    <script>
-        //------------------------------------------------------------------------------------------------------
-        $("#clickme").on("click", function () {
-            /*Al terminar de cargar el sitio, primero se va la animación del Preloader*/
-            $("#loader").fadeIn();
-            /*Medio segundo despues, se va poco a poco el fondo del preloader*/
-            $("#loader-wrapper").delay(500).fadeIn("slow");
-
+                miurl = '@Url.Action("DiscresValidas", "Home")'
+                $.ajax({
+                    url: miurl,
+                    data: {},
+                    cache: false,
+                });
+            });
+                filterproducts();
         });
 
 
-        function Outloader() {
-            /*Al terminar de cargar el sitio, primero se va la animación del Preloader*/
-            $("#loader").fadeOut();
-            /*Medio segundo despues, se va poco a poco el fondo del preloader*/
-            $("#loader-wrapper").delay(500).fadeOut("slow");
-        }
-
-        function Inloader() {
-            /*Al terminar de cargar el sitio, primero se va la animación del Preloader*/
-            $("#loader").fadeIn();
-            /*Medio segundo despues, se va poco a poco el fondo del preloader*/
-            $("#loader-wrapper").delay(500).fadeIn("slow");
-        }
-
+            function filterProducts() {
+                return {
+                    IdPlaza: $("#Plazas").val()
+                };
+            }
     </script>
-
-
-
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-    <script src="~/Scripts/jquery-3.3.1.js"></script>
-    <script src="~/Scripts/jquery.validate.js"></script>
-    <script src="~/Scripts/popper.js"></script>
-    <script src="~/Scripts/bootstrap-multiselect.min.js"></script>
-    <link href="~/Scripts/umd/bootstrap-multiselect.css" rel="stylesheet" />
-
-
-
 }
+<h2 class="titles">Discrepancias</h2>
+
+<h4 class="titles">Fecha de consulta:<label style="color:red;"> *</label><sup style="color:red;"> @ViewBag.ValidaFecha</sup></h4>
+
+@(Html.Kendo().DatePicker().Name("datepicker").Max(DateTime.Now).Format("dd-MM-yyyy").HtmlAttributes(new { @class = "datepickerstyle" }))
+
+
+
+<h4 class="titles" style="margin-top: 2em;">Plaza:<label style="color:red;"> *</label><sup style="color:red;"> @ViewBag.ValidaPlaza</sup></h4>
+@*Cambios para pruebas de cascada*@
+
+<script>
+            function filterParams() {
+                return {
+                    categories: $("#Plazas").val()
+                };
+            }
+
+            function select(e) {
+                var dropdownlist = $("#Plazas").data("kendoDropDownList");
+                dropdownlist.select(e.item.index());
+                var multiselect = $("#Carriles").data("kendoMultiSelect");
+                multiselect.dataSource.read();
+            };
+</script>
+
+@(Html.Kendo().DropDownList()
+                                                                                        .Name("Plazas")
+                                                                                        .HtmlAttributes(new { @class = "dropstyle" })
+                                                                                        .OptionLabel("Seleccionar plaza...")
+                                                                                        .DataTextField("NombrePlaza")
+                                                                                        .DataValueField("ValorPlaza")
+                                                                                        .DataSource(source =>
+                                                                                        {
+                                                                                            source.Read(read =>
+                                                                                            {
+                                                                                                read.Action("GetPlazas", "Home");
+                                                                                            });
+                                                                                        })
+                                                                                        .Events(e => e.Select("select"))
+)
+
+<h4 class="titles" style="margin-top: 2em;">Carriles:</h4>
+<div class="col-md-4" style=" padding-left: 0px !important;">
+    @(Html.Kendo().MultiSelect()
+
+                                                                                                    .Name("Carriles")
+                                                                                                    .HtmlAttributes(new { @class = "dropstyle" })
+                                                                                                    .DataTextField("Value")
+                                                                                                    .DataValueField("Text")
+                                                                                                    .Placeholder("Seleciona carril...")
+                                                                                                    .DataSource(source =>
+                                                                                                    {
+                                                                                                        source.Read(read =>
+                                                                                                        {
+                                                                                                            read.Action("GetCarriles", "Home")
+                                                                                                            .Data("filterParams");
+                                                                                                        })
+                                                                                                        .ServerFiltering(true);
+
+                                                                                                    })
+                                                                                                    .AutoBind(false)
+    )
+    </div>
+
+    <h4 class="titles" style="margin-top: 2em;">Turno:</h4>
+    @(Html.Kendo().DropDownList()
+                                                                                                .Name("Turnos")
+                                                                                                .HtmlAttributes(new { @class = "dropstyle" })
+                                                                                                .OptionLabel("Seleccionar turnos...")
+                                                                                                .DataTextField("NombreTurno")
+                                                                                                .DataValueField("ValorTurno")
+                                                                                                .DataSource(source =>
+                                                                                                {
+                                                                                                    source.Read(read =>
+                                                                                                    {
+                                                                                                        read.Action("GetTurnos", "Home");
+                                                                                                    });
+                                                                                                })
+    )
+    <p class="paddingtop" style="margin-top: 2em;"> @Html.Kendo().CheckBox().Name("DiscreNoValidas").Label("¿Restar las discrepancias duplicadas de autobuses?").HtmlAttributes(new { @class = "paddingtop" }) </p>
+    <p style="color:red;">*Datos obigatorios </p>
+    @Ajax.ActionLink("Ingresar",
+            "CreacionDeTabla",
+            "Home",
+            new {  },
+            new AjaxOptions { },
+            htmlAttributes: new { @class = "btn boton1", style = "margin-bottom: 100px !important" })
+
+
+

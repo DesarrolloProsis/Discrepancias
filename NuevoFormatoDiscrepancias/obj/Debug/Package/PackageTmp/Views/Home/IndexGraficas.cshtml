@@ -1,0 +1,172 @@
+﻿@model NuevoFormatoDiscrepancias.Models.Requisitos
+@{
+    ViewBag.Title = "IndexGraficas";
+}
+
+
+<script src="~/Scripts/kt.js"></script>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+                $("#Plazas").change(function () {
+                    var id = $(this).val();
+                    var params = { plaza: id };
+                    miurl = '@Url.Action("InsertarPlaza", "Home")'
+                $.ajax({
+                    url: miurl,
+                    data: params,
+                    cache: false,
+                    });
+                });
+                $("#datepicker").change(function () {
+                    var fecha = $("#datepicker").data("kendoDatePicker");
+                    var value = fecha.value();
+                    value = kendo.toString(value, "dd/MM/yyyy");
+                    var params = { date: value };
+
+                miurl = '@Url.Action("InsertarFecha", "Home")'
+                $.ajax({
+                    url: miurl,
+                    data: params,
+                    cache: false,
+                });
+                });
+
+            $("#Carriles").change(function () {
+
+                var id = $(this).val();
+                var multi = $("#Carriles").data("kendoMultiSelect").value().toString();
+                var params = { carril: multi };
+                    miurl = '@Url.Action("InsertarCarril", "Home")'
+
+                $.ajax({
+                    url: miurl,
+                    data: params,
+                    cache: false,
+                });
+            });
+
+
+
+                $("#Turnos").change(function () {
+                    var id = $(this).val();
+
+                    var params = { turno: id };
+                miurl = '@Url.Action("InsertarTurno", "Home")'
+                $.ajax({
+                    url: miurl,
+                    data: params,
+                    cache: false,
+                });
+            });
+
+            @*$("#DiscreNoValidas").change(function () {
+
+                miurl = '@Url.Action("DiscresValidas", "Home")'
+                $.ajax({
+                    url: miurl,
+                    data: {},
+                    cache: false,
+                });
+            });
+                filterproducts();*@
+        });
+
+
+            function filterProducts() {
+                return {
+                    IdPlaza: $("#Plazas").val()
+                };
+            }
+    </script>
+}
+<h2 class="titles">Graficas</h2>
+
+<h4 class="titles" style="margin-top: 2em;">Fecha de consulta:<label style="color:red;"> *</label><sup style="color:red;"> @ViewBag.ValidaFecha</sup></h4>
+
+@(Html.Kendo().DatePicker().Name("datepicker").Max(DateTime.Now).Format("dd-MM-yyyy").HtmlAttributes(new { @class = "datepickerstyle" }))
+
+
+
+<h4 class="titles" style="margin-top: 2em;">Plaza:<label style="color:red;"> *</label><sup style="color:red;"> @ViewBag.ValidaPlaza</sup></h4>
+@*Cambios para pruebas de cascada*@
+
+<script>
+            function filterParams() {
+                return {
+                    categories: $("#Plazas").val()
+                };
+            }
+
+            function select(e) {
+                var dropdownlist = $("#Plazas").data("kendoDropDownList");
+                dropdownlist.select(e.item.index());
+                var multiselect = $("#Carriles").data("kendoMultiSelect");
+                multiselect.dataSource.read();
+            };
+</script>
+
+@(Html.Kendo().DropDownList()
+                                                                                            .Name("Plazas")
+                                                                                            .HtmlAttributes(new { @class = "dropstyle" })
+                                                                                            .OptionLabel("Seleccionar plaza...")
+                                                                                            .DataTextField("NombrePlaza")
+                                                                                            .DataValueField("ValorPlaza")
+                                                                                            .DataSource(source =>
+                                                                                            {
+                                                                                                source.Read(read =>
+                                                                                                {
+                                                                                                    read.Action("GetPlazas", "Home");
+                                                                                                });
+                                                                                            })
+                                                                                            .Events(e => e.Select("select"))
+)
+
+<h4 class="titles" style="margin-top: 2em;">Carriles:</h4>
+<div class="col-md-4" style=" padding-left: 0px !important;">
+    @(Html.Kendo().MultiSelect()
+
+                                                                                                        .Name("Carriles")
+                                                                                                        .HtmlAttributes(new { @class = "dropstyle" })
+                                                                                                        .DataTextField("Value")
+                                                                                                        .DataValueField("Text")
+                                                                                                        .Placeholder("Seleciona carril...")
+                                                                                                        .DataSource(source =>
+                                                                                                        {
+                                                                                                            source.Read(read =>
+                                                                                                            {
+                                                                                                                read.Action("GetCarriles", "Home")
+                                                                                                                .Data("filterParams");
+                                                                                                            })
+                                                                                                            .ServerFiltering(true);
+
+                                                                                                        })
+                                                                                                        .AutoBind(false)
+    )
+    </div>
+
+    <h4 class="titles" style="margin-top: 2em;">Turno:</h4>
+    @(Html.Kendo().DropDownList()
+                                                                                                    .Name("Turnos")
+                                                                                                    .HtmlAttributes(new { @class = "dropstyle" })
+                                                                                                    .OptionLabel("Seleccionar turnos...")
+                                                                                                    .DataTextField("NombreTurno")
+                                                                                                    .DataValueField("ValorTurno")
+                                                                                                    .DataSource(source =>
+                                                                                                    {
+                                                                                                        source.Read(read =>
+                                                                                                        {
+                                                                                                            read.Action("GetTurnos", "Home");
+                                                                                                        });
+                                                                                                    })
+    )
+    @*<p class="paddingtop"> @Html.Kendo().CheckBox().Name("DiscreNoValidas").Label("¿Restar las discrepancias duplicadas de autobuses?").HtmlAttributes(new { @class = "paddingtop" }) </p>*@
+    <p style="color:red;">*Datos obigatorios </p>
+    @Ajax.ActionLink("Ingresar",
+            "CreacionDeGrafica",
+            "Home",
+            new {  },
+            new AjaxOptions { },
+            htmlAttributes: new { @class = "btn boton1" , style = "margin-bottom: 100px !important" })

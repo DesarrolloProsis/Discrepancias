@@ -90,52 +90,62 @@ namespace NuevoFormatoDiscrepancias.Controllers
                 {
                     Text = "Seleccione una Plaza",
                     Value = "00"
-                },       
-                new SelectListItem()
-                {
-                    Text = "Cerro Gordo",
-                    Value = "P186"
                 },
                 new SelectListItem()
                 {
-                    Text = "Tepozotlan",
-                    Value = "P187"
+                    Text = "Tlalpan",
+                    Value = "OracleCN"
+                },
+                new SelectListItem()
+                {
+                    Text = "La Venta",
+                    Value = "P105"
+                },
+                new SelectListItem()
+                {
+                    Text = "Emiliano Zapata",
+                    Value = "P108"
+                },
+                new SelectListItem()
+                {
+                    Text = "Aeropuerto",
+                    Value = "P107"
+                },
+                new SelectListItem()
+                {
+                    Text = "Xochitepec",
+                    Value = "P106"
+                },
+                new SelectListItem()
+                {
+                    Text = "Palo Blanco",
+                    Value = "P104"
+                },
+                    new SelectListItem()
+                {
+                    Text = "Paso Morelos",
+                    Value = "P103"
+                },
+                new SelectListItem()
+                {
+                    Text = "Alpuyeca",
+                    Value = "P102"
+                },
+                    new SelectListItem()
+                {
+                    Text = "Polotitlan",
+                    Value = "P189"
+                },
+                new SelectListItem()
+                {
+                    Text = "Chichemequillas",
+                    Value = "P195"
                 },
                 new SelectListItem()
                 {
                     Text = "Palmillas",
                     Value = "P194"
-                },
-                new SelectListItem()
-                {
-                    Text = "Queretaro",
-                    Value = "P191"
-                },
-                new SelectListItem()
-                {
-                    Text = "VillaGran",
-                    Value = "P192"
-                },
-                    new SelectListItem()
-                {
-                    Text = "Salamanca",
-                    Value = "P193"
-                },
-                new SelectListItem()
-                {
-                    Text = "Chichimequillas",
-                    Value = "P195"
-                },
-                    new SelectListItem()
-                {
-                    Text = "Libramiento",
-                    Value = "P190"
-                },
-                new SelectListItem()
-                {
-                    Text = "Jorobas",
-                    Value = "P188"
-                },             
+                }
             };
             return Json(plazas, JsonRequestBehavior.AllowGet);
         }
@@ -413,7 +423,6 @@ namespace NuevoFormatoDiscrepancias.Controllers
                     {
                         lista.Add(carriles.GetString(0));
                     }
-              
 
                     string todos = "4";
                     if (Turno == "" || Turno == null)
@@ -444,23 +453,13 @@ namespace NuevoFormatoDiscrepancias.Controllers
                     TableRow nuevFila = new TableRow();
                     TableCell nuevaCelda = new TableCell();
                     bool Decide = false;
-          
-
-                   if (prueba == null)
-                   {
+                   if (lista.Count == prueba.Count)
+                    {
                       Decide = true;
-                   }
+                    }
                    else
-                   {
-                        if(lista.Count == prueba.Count)
-                        {
-                            Decide = true;
-                        }
-                        else
-                        {
-                            Decide = false;
-                        }
-                        
+                    {
+                        Decide = false;
                     }
 
                     //Todos los turnos y todos los carriles 2
