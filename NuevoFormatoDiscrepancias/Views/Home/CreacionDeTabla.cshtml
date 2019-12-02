@@ -19,49 +19,93 @@
     <div class="table-responsive-md" style="margin-bottom: 100px !important">
 
         <table id="grid" class="table table-bordered">
-            <thead>
-                <tr>
-                    <th data-field="Carril" class="text-lg-center" style="padding-bottom:25px !important">Carril</th>
-                    <th data-field="Fecha" class="text-lg-center" style="padding-bottom:25px !important">Fecha</th>
-                    <th data-field="Turno" width="200px" class="text-lg-center" style="padding-bottom:25px !important">Turnos</th>
-                    <th data-field="DicrepanciasPRE" class="text-lg-center">Discrepancias Pre</th>
-                    <th data-field="EficienciaPRE" class="text-sm-center">Eficiencia Pre</th>
-                    <th data-field="EficienciaDIa" class="text-sm-center" width="150px">Eficiencia Dia Pre</th>
-                    <th data-field="DicrepanciasPOST" class="text-lg-center">Discrepancias Post</th>
-                    <th data-field="EficienciaPOST" class="text-sm-center">Eficiencia Post</th>
-                    <th data-field="EficienciaDIA" class="text-sm-center" width="150px">Eficiencia Dia Post</th>
-                    <th data-field="Cruces" class="text-lg-center" style="padding-bottom:25px !important">Cruces</th>
-                    <th data-field="Boton" class="text-sm-center"></th>
 
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < Model.FilasDeTabla.Count; i++)
-                {
+            @if (Model.FilasDeTabla[0].TipoTabla != "RangoFecha")
+            {
+                <thead>
                     <tr>
-                        <td>@Html.DisplayFor(item => item.FilasDeTabla[i].Carril)</td>
-                        <td>@Html.DisplayFor(item => item.FilasDeTabla[i].Fecha)</td>
-                        <td>@Html.DisplayFor(item => item.FilasDeTabla[i].Turno)</td>
-                        <td>@Html.DisplayFor(item => item.FilasDeTabla[i].Discrepancias_Pre)</td>
-                        <td @if (Model.FilasDeTabla[i].Eficiencia_Pre == "-" || Model.FilasDeTabla[i].Eficiencia_Pre == "cerrado") { color = "#5DADE2"; } else if (Model.FilasDeTabla[i].Eficiencia_Pre == "100") { color = "#58D68D"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Pre) >= 99.5 && Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Pre) < 100) { color = "#F4D03F"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Pre) < 99.5) { color = "#EC7063"; } else if (Model.FilasDeTabla[i].Eficiencia_Pre == "Exclusivo") { color = "#EC7063"; } else { color = "#b4b4c6"; } } bgcolor=@color>@Html.DisplayFor(item => item.FilasDeTabla[i].Eficiencia_Pre)</td>
-                        <td @if (Model.FilasDeTabla[i].Eficiencia_Dia_Pre == "-" || Model.FilasDeTabla[i].Eficiencia_Dia_Pre == "Carriles Cerrados") { color = "#5DADE2"; } else if (Model.FilasDeTabla[i].Eficiencia_Dia_Pre == "100") { color = "#58D68D"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Pre) >= 99.5 && Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Pre) < 100) { color = "#F4D03F"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Pre) < 99.5) { color = "#EC7063"; } else { color = "#b4b4c6"; } } bgcolor=@color>@Html.DisplayFor(item => item.FilasDeTabla[i].Eficiencia_Dia_Pre)</td>
-                        <td> @Html.DisplayFor(item => item.FilasDeTabla[i].Discrepancias_Post)</td>
-                        <td @if (Model.FilasDeTabla[i].Eficiencia_Post == "-" || Model.FilasDeTabla[i].Eficiencia_Post == "cerrado") { color = "#5DADE2"; } else if (Model.FilasDeTabla[i].Eficiencia_Post == "100") { color = "#58D68D"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Post) >= 99.5 && Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Post) < 100) { color = "#F4D03F"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Post) < 99.5) { color = "#EC7063"; } else { color = "#b4b4c6"; } } bgcolor=@color>@Html.DisplayFor(item => item.FilasDeTabla[i].Eficiencia_Post)</td>
-                        <td @if (Model.FilasDeTabla[i].Eficiencia_Dia_Post == "-" || Model.FilasDeTabla[i].Eficiencia_Dia_Post == "Carriles Cerrados") { color = "#5DADE2"; } else if (Model.FilasDeTabla[i].Eficiencia_Dia_Post == "100") { color = "#58D68D"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Post) >= 99.5 && Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Post) < 100) { color = "#F4D03F"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Post) < 99.5) { color = "#EC7063"; } else { color = "#b4b4c6"; } } bgcolor=@color>@Html.DisplayFor(item => item.FilasDeTabla[i].Eficiencia_Dia_Post)</td>
-                        <td>@Html.DisplayFor(item => item.FilasDeTabla[i].Cruces)</td>
-                        @if (Model.FilasDeTabla[i].Discrepancias_Pre == "Exclusivo")
-                        {
-                            <td><button  class="btn btn-dark disabled" role="button" aria-pressed="true" >Exclusivo</button></td>
-                        }
-                        else
-                        {
-                            <td><a href="@Url.Action("Detalles", "Home", routeValues: new { id = Model.FilasDeTabla[i].Id })" class="btn btn-light" role="button" aria-pressed="true">Detalles</a></td>
-                        }
+                        <th data-field="Carril" class="text-lg-center" style="padding-bottom:25px !important">Carril</th>
+                        <th data-field="Fecha" class="text-lg-center" style="padding-bottom:25px !important">Fecha</th>
+                        <th data-field="Turno" width="200px" class="text-lg-center" style="padding-bottom:25px !important">Turnos</th>
+                        <th data-field="DicrepanciasPRE" class="text-lg-center">Discrepancias Pre</th>
+                        <th data-field="EficienciaPRE" class="text-sm-center">Eficiencia Pre</th>
+                        <th data-field="EficienciaDIa" class="text-sm-center" width="150px">Eficiencia Dia Pre</th>
+                        <th data-field="DicrepanciasPOST" class="text-lg-center">Discrepancias Post</th>
+                        <th data-field="EficienciaPOST" class="text-sm-center">Eficiencia Post</th>
+                        <th data-field="EficienciaDIA" class="text-sm-center" width="150px">Eficiencia Dia Post</th>
+                        <th data-field="Cruces" class="text-lg-center" style="padding-bottom:25px !important">Cruces</th>
+                        <th data-field="Boton" class="text-sm-center"></th>
 
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.FilasDeTabla.Count; i++)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(item => item.FilasDeTabla[i].Carril)</td>
+                            <td>@Html.DisplayFor(item => item.FilasDeTabla[i].Fecha)</td>
+                            <td>@Html.DisplayFor(item => item.FilasDeTabla[i].Turno)</td>
+                            <td>@Html.DisplayFor(item => item.FilasDeTabla[i].Discrepancias_Pre)</td>
+                            <td @if (Model.FilasDeTabla[i].Eficiencia_Pre == "-" || Model.FilasDeTabla[i].Eficiencia_Pre == "cerrado") { color = "#5DADE2"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Pre) >= 99.5) { color = "#58D68D"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Pre) >= 90 && Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Pre) < 99.5) { color = "#F4D03F"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Pre) < 90) { color = "#EC7063"; } else if (Model.FilasDeTabla[i].Eficiencia_Pre == "Exclusivo") { color = "#EC7063"; } else { color = "#b4b4c6"; } } bgcolor=@color>@Html.DisplayFor(item => item.FilasDeTabla[i].Eficiencia_Pre)</td>
+                            <td @if (Model.FilasDeTabla[i].Eficiencia_Dia_Pre == "-" || Model.FilasDeTabla[i].Eficiencia_Dia_Pre == "Carriles Cerrados") { color = "#5DADE2"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Pre) >= 99.5) { color = "#58D68D"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Pre) >= 90 && Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Pre) < 99.5) { color = "#F4D03F"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Pre) < 90) { color = "#EC7063"; } else { color = "#b4b4c6"; } } bgcolor=@color>@Html.DisplayFor(item => item.FilasDeTabla[i].Eficiencia_Dia_Pre)</td>
+                            <td> @Html.DisplayFor(item => item.FilasDeTabla[i].Discrepancias_Post)</td>
+                            <td @if (Model.FilasDeTabla[i].Eficiencia_Post == "-" || Model.FilasDeTabla[i].Eficiencia_Post == "cerrado") { color = "#5DADE2"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Post) >= 99.5) { color = "#58D68D"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Post) >= 90 && Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Post) < 99.5) { color = "#F4D03F"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Post) < 90) { color = "#EC7063"; } else { color = "#b4b4c6"; } } bgcolor=@color>@Html.DisplayFor(item => item.FilasDeTabla[i].Eficiencia_Post)</td>
+                            <td @if (Model.FilasDeTabla[i].Eficiencia_Dia_Post == "-" || Model.FilasDeTabla[i].Eficiencia_Dia_Post == "Carriles Cerrados") { color = "#5DADE2"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Post) >= 99.5) { color = "#58D68D"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Post) >= 90 && Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Post) < 99.5) { color = "#F4D03F"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Post) < 90) { color = "#EC7063"; } else { color = "#b4b4c6"; } } bgcolor=@color>@Html.DisplayFor(item => item.FilasDeTabla[i].Eficiencia_Dia_Post)</td>
+                            <td>@Html.DisplayFor(item => item.FilasDeTabla[i].Cruces)</td>
+                            @if (Model.FilasDeTabla[i].Discrepancias_Pre == "Exclusivo")
+                            {
+                                <td><button class="btn btn-dark disabled" role="button" aria-pressed="true">Exclusivo</button></td>
+                            }
+                            else
+                            {
+                                <td><a href="@Url.Action("Detalles", "Home", routeValues: new { id = Model.FilasDeTabla[i].Id })" class="btn btn-light" role="button" aria-pressed="true">Detalles</a></td>
+                            }
 
-            </tbody>
+                        </tr>
+                    }
+
+                </tbody>
+            }
+            else
+            {
+                <thead>
+                    <tr>
+                        <th data-field="Carril" class="text-lg-center" style="padding-bottom:25px !important">Carril</th>
+                        <th data-field="Fecha" class="text-lg-center" style="padding-bottom:25px !important">Fecha</th>
+                        <th data-field="Turno" width="200px" class="text-lg-center" style="padding-bottom:25px !important">Turnos</th>
+                        <th data-field="DicrepanciasPRE" class="text-lg-center">Discrepancias Pre</th>
+                        <th data-field="EficienciaPRE" class="text-sm-center">Eficiencia Pre</th>
+                        <th data-field="EficienciaDIa" class="text-sm-center" width="150px">Eficiencia Dia Pre</th>
+                        <th data-field="DicrepanciasPOST" class="text-lg-center">Discrepancias Post</th>
+                        <th data-field="EficienciaPOST" class="text-sm-center">Eficiencia Post</th>
+                        <th data-field="EficienciaDIA" class="text-sm-center" width="150px">Eficiencia Dia Post</th>
+                        <th data-field="Cruces" class="text-lg-center" style="padding-bottom:25px !important">Cruces</th>
+                        
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.FilasDeTabla.Count; i++)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(item => item.FilasDeTabla[i].Carril)</td>
+                            <td>@Html.DisplayFor(item => item.FilasDeTabla[i].Fecha)</td>
+                            <td>@Html.DisplayFor(item => item.FilasDeTabla[i].Turno)</td>
+                            <td>@Html.DisplayFor(item => item.FilasDeTabla[i].Discrepancias_Pre)</td>
+                            <td @if (Model.FilasDeTabla[i].Eficiencia_Pre == "-" || Model.FilasDeTabla[i].Eficiencia_Pre == "cerrado") { color = "#5DADE2"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Pre) >= 99.5) { color = "#58D68D"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Pre) >= 90 && Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Pre) < 99.5) { color = "#F4D03F"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Pre) < 90) { color = "#EC7063"; } else if (Model.FilasDeTabla[i].Eficiencia_Pre == "Exclusivo") { color = "#EC7063"; } else { color = "#b4b4c6"; } } bgcolor=@color>@Html.DisplayFor(item => item.FilasDeTabla[i].Eficiencia_Pre)</td>
+                            <td @if (Model.FilasDeTabla[i].Eficiencia_Dia_Pre == "-" || Model.FilasDeTabla[i].Eficiencia_Dia_Pre == "Carriles Cerrados") { color = "#5DADE2"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Pre) >= 99.5) { color = "#58D68D"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Pre) >= 90 && Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Pre) < 99.5) { color = "#F4D03F"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Pre) < 90) { color = "#EC7063"; } else { color = "#b4b4c6"; } } bgcolor=@color>@Html.DisplayFor(item => item.FilasDeTabla[i].Eficiencia_Dia_Pre)</td>
+                            <td> @Html.DisplayFor(item => item.FilasDeTabla[i].Discrepancias_Post)</td>
+                            <td @if (Model.FilasDeTabla[i].Eficiencia_Post == "-" || Model.FilasDeTabla[i].Eficiencia_Post == "cerrado") { color = "#5DADE2"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Post) >= 99.5) { color = "#58D68D"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Post) >= 90 && Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Post) < 99.5) { color = "#F4D03F"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Post) < 90) { color = "#EC7063"; } else { color = "#b4b4c6"; } } bgcolor=@color>@Html.DisplayFor(item => item.FilasDeTabla[i].Eficiencia_Post)</td>
+                            <td @if (Model.FilasDeTabla[i].Eficiencia_Dia_Post == "-" || Model.FilasDeTabla[i].Eficiencia_Dia_Post == "Carriles Cerrados") { color = "#5DADE2"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Post) >= 99.5) { color = "#58D68D"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Post) >= 90 && Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Post) < 99.5) { color = "#F4D03F"; } else if (Convert.ToDouble(Model.FilasDeTabla[i].Eficiencia_Dia_Post) < 90) { color = "#EC7063"; } else { color = "#b4b4c6"; } } bgcolor=@color>@Html.DisplayFor(item => item.FilasDeTabla[i].Eficiencia_Dia_Post)</td>
+                            <td>@Html.DisplayFor(item => item.FilasDeTabla[i].Cruces)</td>
+                        
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            }
         </table>
     </div>
 </div>

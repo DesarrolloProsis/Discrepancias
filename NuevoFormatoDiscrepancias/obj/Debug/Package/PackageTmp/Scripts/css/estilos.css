@@ -5,22 +5,37 @@
     text-shadow: none;
 }
 
+.dropdown-toggle::after{
+    float:right !important;
+    margin-top:9px !important;
+}
+.caret {
+    float: left !important;
+}
+.multiselect-selected-text{
+    float:left !important;
+}
+.dropplaza {
+    width: 100% !important;
+}
+
 ::selection {
     background: #4bc2c5;
     text-shadow: none;
 }
 /* Navbar */
-body {
-    /*padding-top: 5rem !important;*/
+/*body {
+    padding-bottom: 5rem !important;
+}*/
+
+.drop-res{
+    width: 100% !important;
 }
-
-
 
 body,
 html {
     width: 100%;
     height: 100%;
-
 }
 
 
@@ -31,9 +46,9 @@ html {
 }
 
 nav {
-    background: #4bc2c5;
-    text-decoration: none;
-    font-family: 'Armata', sans-serif;
+    background: #4bc2c5 !important;
+    text-decoration: none !important;
+    font-family: 'Armata', sans-serif !important;
 
 
 }
@@ -51,30 +66,38 @@ nav {
     bottom: 0;
     width: 100%;
     background-color: #4bc2c5;
-    color: white;
+    color: white !important;
     text-align: center;
+    padding: 0px !important;
 }
 
 .footertext {
     margin: 5px;
+    color: white !important;
 }
 
 /* Botones */
 
 .boton1 {
-    background-color: #4bc2c5;
+    background-color: #4bc2c5 !important;
     border-radius: 20px;
-    color: white;
+    color: white !important;
     border: 0;
-    box-shadow: 0px 5px 0px 0px #3b9a9c;
+    box-shadow: 0px 5px 0px 0px #3b9a9c !important;
     padding-top: 12px;
     padding-bottom: 12px;
     width: 90px;
     margin-top: 7px;
 }
+.boton1:hover {
+
+    color: white;
+   
+}
 .boton1:active {
     box-shadow: 0px 2px 0px 0px #1d566e;
     transform: translateY(2px);
+    color: white;
 
 }
 
@@ -91,8 +114,14 @@ nav {
     padding-right: 10px;
 
 }
+.boton2:hover {
+
+    color: white;
+  
+}
 
 .boton2:active {
+    color: white;
     box-shadow: 0px 2px 0px 0px #3b9a9c;
     transform: translateY(2px);
 }
@@ -332,4 +361,11 @@ nav {
 	background-color: #82BF56;
 	border-bottom: 14px solid #669644;
 	text-shadow: 0px -2px #669644;
+}
+
+.Recorte
+{
+    width: 10px;
+    height: 10px;
+
 }

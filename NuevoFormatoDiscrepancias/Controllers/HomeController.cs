@@ -93,59 +93,55 @@ namespace NuevoFormatoDiscrepancias.Controllers
                 },
                 new SelectListItem()
                 {
-                    Text = "Tlalpan",
-                    Value = "OracleCN"
+                    Text = "Cerro Gordo",
+                    Value = "P186"
                 },
                 new SelectListItem()
                 {
-                    Text = "La Venta",
-                    Value = "P105"
+                    Text = "Tepotzotlan",
+                    Value = "P187"
                 },
                 new SelectListItem()
                 {
-                    Text = "Emiliano Zapata",
-                    Value = "P108"
+                    Text = "Jorobas",
+                    Value = "P188"
                 },
                 new SelectListItem()
-                {
-                    Text = "Aeropuerto",
-                    Value = "P107"
-                },
-                new SelectListItem()
-                {
-                    Text = "Xochitepec",
-                    Value = "P106"
-                },
-                new SelectListItem()
-                {
-                    Text = "Palo Blanco",
-                    Value = "P104"
-                },
-                    new SelectListItem()
-                {
-                    Text = "Paso Morelos",
-                    Value = "P103"
-                },
-                new SelectListItem()
-                {
-                    Text = "Alpuyeca",
-                    Value = "P102"
-                },
-                    new SelectListItem()
                 {
                     Text = "Polotitlan",
                     Value = "P189"
                 },
                 new SelectListItem()
                 {
-                    Text = "Chichemequillas",
-                    Value = "P195"
+                    Text = "Libramiento",
+                    Value = "P190"
                 },
                 new SelectListItem()
                 {
+                    Text = "Queretaro",
+                    Value = "P191"
+                },
+                    new SelectListItem()
+                {
+                    Text = "Villagrán",
+                    Value = "P192"
+                },
+                new SelectListItem()
+                {
+                    Text = "Salamanca",
+                    Value = "P193"
+                },
+                    new SelectListItem()
+                {
                     Text = "Palmillas",
                     Value = "P194"
-                }
+                },
+                new SelectListItem()
+                {
+                    Text = "Chichimequillas",
+                    Value = "P195"
+                },
+
             };
             return Json(plazas, JsonRequestBehavior.AllowGet);
         }
@@ -358,6 +354,12 @@ namespace NuevoFormatoDiscrepancias.Controllers
 
 
                 }
+
+                foreach (var item in model.FilasDeTabla)
+                {
+                    item.TipoTabla = "SinRango";
+                }
+
                 //return View("CreacionDeTabla",model);
                 return View("CreacionDeTabla", model);
             }
@@ -423,6 +425,19 @@ namespace NuevoFormatoDiscrepancias.Controllers
                     {
                         lista.Add(carriles.GetString(0));
                     }
+                    if(prueba == null)
+                    {
+
+                        List<string> btn = new List<string>();
+
+                        foreach (var item in lista) {
+                            btn.Add(item);
+                                }
+
+                        prueba = btn;
+
+
+                    }
 
                     string todos = "4";
                     if (Turno == "" || Turno == null)
@@ -453,14 +468,17 @@ namespace NuevoFormatoDiscrepancias.Controllers
                     TableRow nuevFila = new TableRow();
                     TableCell nuevaCelda = new TableCell();
                     bool Decide = false;
-                   if (lista.Count == prueba.Count)
-                    {
-                      Decide = true;
-                    }
-                   else
-                    {
-                        Decide = false;
-                    }
+
+                  
+                        if (lista.Count == prueba.Count)
+                        {
+                            Decide = true;
+                        }
+                        else
+                        {
+                            Decide = false;
+                        }
+                   
 
                     //Todos los turnos y todos los carriles 2
                     //if (Turno == todos && IdCarril == todos)
@@ -1228,6 +1246,13 @@ namespace NuevoFormatoDiscrepancias.Controllers
                         model.FilasDeTabla = filasss;
                         formato.Carril = "";
                     }
+
+
+                    foreach (var item in model.FilasDeTabla)
+                    {
+                        item.TipoTabla = "RangoFecha";
+                    }
+
                     return View("CreacionDeTabla", model);
                 }
 

@@ -1,0 +1,594 @@
+﻿@model NuevoFormatoDiscrepancias.Models.TablaDetalles
+@{
+    ViewBag.Title = "Mini_Tabla";
+    string color, encabezados;
+}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <title>
+        Discrepancias
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- Nucleo Icons -->
+    @*<link href="../assets/css/nucleo-icons.css" rel="stylesheet" />*@
+    <link href="~/Content/Graficas/nucleo-icons.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    @*<link href="../assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />*@
+    <link href="~/Content/Graficas/black-dashboard.css" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    @*<link href="../assets/demo/demo.css" rel="stylesheet" />*@
+    <link href="~/Content/Graficas/demo.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="../assets/css/estilos.css" />*@
+    <link href="~/Content/Graficas/estilos.css" rel="stylesheet" />
+</head>
+<body class="white-content">
+
+    <!--
+        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red"
+    -->
+    <div class="main-panel white-content" style="border-top:none !important;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-chart">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-sm-6 text-left">
+                                    <h5 class="card-category">Discrepancias</h5>
+                                    <h2 class="card-title">Día</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="Total"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card card-chart">
+                        <div class="card-header">
+                            <h5 class="card-category"></h5>
+                            <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-primary"></i> Turno 1</h3>
+                        </div>
+                       
+                            <canvas id="Turno1"></canvas>
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card card-chart">
+                        <div class="card-header">
+                            <h5 class="card-category"></h5>
+                            <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> Turno 2</h3>
+                        </div>
+
+                        <canvas id="Turno2"></canvas>
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card card-chart">
+                        <div class="card-header">
+                            <h5 class="card-category"></h5>
+                            <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-success"></i> Turno 3</h3>
+                        </div>
+
+                        <canvas id="Turno3"></canvas>
+  
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Detalle De Evento</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table tablesorter " id="">
+
+                                    <thead class=" text-primary">
+                                        <tr>
+                                            <th data-field="Fecha" style="padding-bottom:25px !important">Fecha</th>
+                                            <th data-field="Turno" style="padding-bottom:25px !important">Turno</th>
+                                            <th data-field="Evento" style="padding-bottom:25px !important">Evento</th>
+                                            <th data-field="Pre" style="padding-bottom:25px !important">Pre</th>
+                                            <th data-field="Cajero" style="padding-bottom:25px !important">Cajero</th>
+                                            <th data-field="Post" style="padding-bottom:25px !important">Post</th>
+                                            <th data-field="Pago" style="padding-bottom:25px !important">Pago</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < Model.Mini_Tabla.Count; i++)
+                                        {
+                                            <tr>
+                                                <td @if (Model.Mini_Tabla[i].Fecha == "Pre") { color = "#1F90DE"; } else if (Model.Mini_Tabla[i].Fecha == "Post") { color = "#D5291E"; } else { color = "#fff"; } } bgcolor="@color">@Html.DisplayFor(item => item.Mini_Tabla[i].Fecha)</td>
+                                                <td @if (Model.Mini_Tabla[i].Turno == "Pre") { color = "#1F90DE"; } else if (Model.Mini_Tabla[i].Turno == "Post") { color = "#D5291E"; } else { color = "#fff"; } } bgcolor="@color">@Html.DisplayFor(item => item.Mini_Tabla[i].Turno)</td>
+                                                <td @if (Model.Mini_Tabla[i].Transacion == "Pre") { color = "#1F90DE"; } else if (Model.Mini_Tabla[i].Transacion == "Post") { color = "#D5291E"; } else { color = "#fff"; } } bgcolor="@color">@Html.DisplayFor(item => item.Mini_Tabla[i].Transacion)</td>
+                                                <td @if (Model.Mini_Tabla[i].Pre == "Pre") { color = "#1F90DE"; } else if (Model.Mini_Tabla[i].Pre == "Post") { color = "#D5291E"; } else { color = "#fff"; } } bgcolor="@color">@Html.DisplayFor(item => item.Mini_Tabla[i].Pre)</td>
+                                                <td @if (Model.Mini_Tabla[i].Cajero == "Pre") { color = "#1F90DE"; } else if (Model.Mini_Tabla[i].Cajero == "Post") { color = "#D5291E"; } else { color = "#fff"; } } bgcolor="@color">@Html.DisplayFor(item => item.Mini_Tabla[i].Cajero)</td>
+                                                <td @if (Model.Mini_Tabla[i].Post == "Pre") { color = "#1F90DE"; } else if (Model.Mini_Tabla[i].Post == "Post") { color = "#D5291E"; } else { color = "#fff"; } } bgcolor="@color">@Html.DisplayFor(item => item.Mini_Tabla[i].Post)</td>
+                                                <td @if (Model.Mini_Tabla[i].Pago == "Pre") { color = "#1F90DE"; } else if (Model.Mini_Tabla[i].Pago == "Post") { color = "#D5291E"; } else { color = "#fff"; } } bgcolor="@color">@Html.DisplayFor(item => item.Mini_Tabla[i].Pago)</td>
+
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="row">
+                    <div class="col-lg-4">
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h5 class="card-category"></h5>
+                                <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-primary"></i> Turno 1</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="Turno1"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h5 class="card-category"></h5>
+                                <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> Turno 2</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="Turno2"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h5 class="card-category"></h5>
+                                <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-success"></i> Turno 3</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="Turno3"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+
+        </div>
+    </div>
+
+    <!--   Core JS Files   -->
+    @*<script src="../assets/js/core/jquery.min.js"></script>
+        <script src="../assets/js/core/popper.min.js"></script>
+        <script src="../assets/js/core/bootstrap.min.js"></script>
+        <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>*@
+    <script src="~/Content/Graficas/jquery.min.js"></script>
+    <script src="~/Content/Graficas/popper.min.js"></script>
+    <script src="~/Content/Graficas/bootstrap.min.js"></script>
+    <script src="~/Content/Graficas/perfect-scrollbar.jquery.min.js"></script>
+
+    <!--  Google Maps Plugin    -->
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+    <!-- Chart JS -->
+    @*<script src="../assets/js/plugins/chartjs.min.js"></script>*@
+    <script src="~/Content/Graficas/chartjs.min.js"></script>
+    <!--  Notifications Plugin    -->
+    @*<script src="../assets/js/plugins/bootstrap-notify.js"></script>*@
+    <script src="~/Content/Graficas/bootstrap-notify.js"></script>
+    <!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
+    @*<script src="../assets/js/black-dashboard.min.js?v=1.0.0"></script>*@
+    <script src="~/Content/Graficas/black-dashboard.min.js"></script>
+    <!-- Black Dashboard DEMO methods, don't include it in your project! -->
+    @*<script src="../assets/demo/demo.js"></script>*@
+    <script src="~/Content/Graficas/demo.js"></script>
+    <script>
+        $().ready(function () {
+            $sidebar = $('.sidebar');
+            $navbar = $('.navbar');
+            $main_panel = $('.main-panel');
+
+            $full_page = $('.full-page');
+
+            $sidebar_responsive = $('body > .navbar-collapse');
+            sidebar_mini_active = true;
+            white_color = false;
+
+            window_width = $(window).width();
+
+            fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+
+
+            $('.fixed-plugin a').click(function (event) {
+                if ($(this).hasClass('switch-trigger')) {
+                    if (event.stopPropagation) {
+                        event.stopPropagation();
+                    } else if (window.event) {
+                        window.event.cancelBubble = true;
+                    }
+                }
+            });
+
+            $('.fixed-plugin .background-color span').click(function () {
+                $(this).siblings().removeClass('active');
+                $(this).addClass('active');
+
+                var new_color = $(this).data('color');
+
+                if ($sidebar.length != 0) {
+                    $sidebar.attr('data', new_color);
+                }
+
+                if ($main_panel.length != 0) {
+                    $main_panel.attr('data', new_color);
+                }
+
+                if ($full_page.length != 0) {
+                    $full_page.attr('filter-color', new_color);
+                }
+
+                if ($sidebar_responsive.length != 0) {
+                    $sidebar_responsive.attr('data', new_color);
+                }
+            });
+
+            $('.switch-sidebar-mini input').on("switchChange.bootstrapSwitch", function () {
+                var $btn = $(this);
+
+                if (sidebar_mini_active == true) {
+                    $('body').removeClass('sidebar-mini');
+                    sidebar_mini_active = false;
+                    blackDashboard.showSidebarMessage('Sidebar mini deactivated...');
+                } else {
+                    $('body').addClass('sidebar-mini');
+                    sidebar_mini_active = true;
+                    blackDashboard.showSidebarMessage('Sidebar mini activated...');
+                }
+
+                // we simulate the window Resize so the charts will get updated in realtime.
+                var simulateWindowResize = setInterval(function () {
+                    window.dispatchEvent(new Event('resize'));
+                }, 180);
+
+                // we stop the simulation of Window Resize after the animations are completed
+                setTimeout(function () {
+                    clearInterval(simulateWindowResize);
+                }, 1000);
+            });
+
+            $('.switch-change-color input').on("switchChange.bootstrapSwitch", function () {
+                var $btn = $(this);
+
+                if (white_color == true) {
+
+                    $('body').addClass('change-background');
+                    setTimeout(function () {
+                        $('body').removeClass('change-background');
+                        $('body').removeClass('white-content');
+                    }, 900);
+                    white_color = false;
+                } else {
+
+                    $('body').addClass('change-background');
+                    setTimeout(function () {
+                        $('body').removeClass('change-background');
+                        $('body').addClass('white-content');
+                    }, 900);
+
+                    white_color = true;
+                }
+
+
+            });
+
+            $('.light-badge').click(function () {
+                $('body').addClass('white-content');
+            });
+
+            $('.dark-badge').click(function () {
+                $('body').removeClass('white-content');
+            });
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Javascript method's body can be found in assets/js/demos.js
+
+            $.ajax({
+                url: '@Url.Action("Graficas", "Home")',
+                type: "GET",
+                crossDomain: false,
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (json) {
+
+                    console.log(json)
+                    var Graficas_Pre = json.Graficas_Pre;
+                    var Graficas_Post = json.Graficas_Post;
+
+                    var Clases_1 = json.Clase_Turno_1
+                    var Turno1_Pre = json.Grafica_Mini_1_Pre;
+                    var Turno1_Post = json.Grafica_Mini_1_Post;
+
+                    var Clases_2 = json.Clase_Turno_2
+                    var Turno2_Pre = json.Grafica_Mini_2_Pre;
+                    var Turno2_Post = json.Grafica_Mini_2_Post;
+
+                    var Clases_3 = json.Clase_Turno_3
+                    var Turno3_Pre = json.Grafica_Mini_3_Pre;
+                    var Turno3_Post = json.Grafica_Mini_3_Post;
+
+                    Grafica_Totales(Graficas_Pre, Graficas_Post)
+                    Grafica_Turno1(Clases_1, Turno1_Pre, Turno1_Post)
+                    Grafica_Turno2(Clases_2, Turno2_Pre, Turno2_Post)
+                    Grafica_Turno3(Clases_3, Turno3_Pre, Turno3_Post)
+
+
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+
+
+            });
+
+            function Grafica_Totales(Graficas_Pre, Graficas_Post) {
+
+                    var ctx_1 = document.getElementById("Total").getContext("2d");
+
+                    var gradientStroke_1 = ctx_1.createLinearGradient(0, 230, 0, 50);
+
+                    gradientStroke_1.addColorStop(1, 'rgba(66,134,121,0.15)');
+                    gradientStroke_1.addColorStop(0.4, 'rgba(66,134,121,0.0)'); //green colors
+                    gradientStroke_1.addColorStop(0, 'rgba(66,134,121,0)'); //green colors
+
+                    var data_1 = {
+                        labels: ['T01A', 'T02C', 'T03C', 'T04C', 'T05C', 'T06C', 'T07C', 'T08C', 'T09C', 'TL01A', 'TL02A', 'T02B', 'T03B', 'T04B', 'T01M', 'TPnnC', 'TLnnA', 'T01T', 'T01P'],
+                        datasets: [{
+                            label: "Driscepancia en Pre",
+                            fill: true,
+                            backgroundColor: gradientStroke_1,
+                            borderColor: '#4bc2c5',
+                            borderWidth: 2,
+                            borderDash: [],
+                            borderDashOffset: 0.0,
+                            pointBackgroundColor: '#4bc2c5',
+                            pointBorderColor: 'rgba(255,255,255,0)',
+                            pointHoverBackgroundColor: '#4bc2c5',
+                            pointBorderWidth: 20,
+                            pointHoverRadius: 4,
+                            pointHoverBorderWidth: 15,
+                            pointRadius: 4,
+                            data: Graficas_Pre
+                        }, {
+                            label: "Driscepancia en Post",
+                            fill: true,
+                            backgroundColor: gradientStroke_1,
+                            borderColor: '#F02E2E',
+                            borderWidth: 2,
+                            borderDash: [],
+                            borderDashOffset: 0.0,
+                            pointBackgroundColor: '#F02E2E',
+                            pointBorderColor: 'rgba(255,255,255,0)',
+                            pointHoverBackgroundColor: '#F02E2E',
+                            pointBorderWidth: 20,
+                            pointHoverRadius: 4,
+                            pointHoverBorderWidth: 15,
+                            pointRadius: 4,
+                            data: Graficas_Post
+
+                        }]
+                    }
+
+                    var myChart_1 = new Chart(ctx_1, {
+                        type: 'bar',
+                        data: data_1,
+
+                    });
+
+            }
+
+            //---------------------------------------------
+            function Grafica_Turno1(Clases1, Turno1_Pre, Turno1_Post) {
+                var ctx_1 = document.getElementById("Turno1").getContext("2d");
+
+                var gradientStroke_1 = ctx_1.createLinearGradient(0, 230, 0, 50);
+
+                gradientStroke_1.addColorStop(1, 'rgba(66,134,121,0.15)');
+                gradientStroke_1.addColorStop(0.4, 'rgba(66,134,121,0.0)'); //green colors
+                gradientStroke_1.addColorStop(0, 'rgba(66,134,121,0)'); //green colors
+
+                var data_1 = {
+                    labels: Clases1,
+                    datasets: [{
+                        label: "Driscepancia en Pre",
+                        fill: true,
+                        backgroundColor: gradientStroke_1,
+                        borderColor: '#4bc2c5',
+                        borderWidth: 2,
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        pointBackgroundColor: '#4bc2c5',
+                        pointBorderColor: 'rgba(255,255,255,0)',
+                        pointHoverBackgroundColor: '#4bc2c5',
+                        pointBorderWidth: 20,
+                        pointHoverRadius: 4,
+                        pointHoverBorderWidth: 15,
+                        pointRadius: 4,
+                        data: Turno1_Pre
+                    }, {
+                        label: "Driscepancia en Post",
+                        fill: true,
+                        backgroundColor: gradientStroke_1,
+                        borderColor: '#F02E2E',
+                        borderWidth: 2,
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        pointBackgroundColor: '#F02E2E',
+                        pointBorderColor: 'rgba(255,255,255,0)',
+                        pointHoverBackgroundColor: '#F02E2E',
+                        pointBorderWidth: 20,
+                        pointHoverRadius: 4,
+                        pointHoverBorderWidth: 15,
+                        pointRadius: 4,
+                        data: Turno1_Post
+
+                    }]
+                }
+
+                var myChart_1 = new Chart(ctx_1, {
+                    type: 'line',
+                    data: data_1,
+
+                });
+
+            }
+
+            //--------------------------------------------
+            function Grafica_Turno2(Clases2, Turno2_Pre, Turno2_Post) {
+
+                var ctx_1 = document.getElementById("Turno2").getContext("2d");
+
+                var gradientStroke_1 = ctx_1.createLinearGradient(0, 230, 0, 50);
+
+                gradientStroke_1.addColorStop(1, 'rgba(66,134,121,0.15)');
+                gradientStroke_1.addColorStop(0.4, 'rgba(66,134,121,0.0)'); //green colors
+                gradientStroke_1.addColorStop(0, 'rgba(66,134,121,0)'); //green colors
+
+                var data_1 = {
+                    labels: Clases2,
+                    datasets: [{
+                        label: "Driscepancia en Pre",
+                        fill: true,
+                        backgroundColor: gradientStroke_1,
+                        borderColor: '#4bc2c5',
+                        borderWidth: 2,
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        pointBackgroundColor: '#4bc2c5',
+                        pointBorderColor: 'rgba(255,255,255,0)',
+                        pointHoverBackgroundColor: '#4bc2c5',
+                        pointBorderWidth: 20,
+                        pointHoverRadius: 4,
+                        pointHoverBorderWidth: 15,
+                        pointRadius: 4,
+                        data: Turno2_Pre
+                    }, {
+                        label: "Driscepancia en Post",
+                        fill: true,
+                        backgroundColor: gradientStroke_1,
+                        borderColor: '#F02E2E',
+                        borderWidth: 2,
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        pointBackgroundColor: '#F02E2E',
+                        pointBorderColor: 'rgba(255,255,255,0)',
+                        pointHoverBackgroundColor: '#F02E2E',
+                        pointBorderWidth: 20,
+                        pointHoverRadius: 4,
+                        pointHoverBorderWidth: 15,
+                        pointRadius: 4,
+                        data: Turno2_Post
+
+                    }]
+                }
+
+                var myChart_1 = new Chart(ctx_1, {
+                    type: 'line',
+                    data: data_1,
+
+                });
+
+            }
+
+
+            //--------------------------------------------
+            function Grafica_Turno3(Clases3, Turno3_Pre, Turno3_Post) {
+
+                var ctx_1 = document.getElementById("Turno3").getContext("2d");
+
+                var gradientStroke_1 = ctx_1.createLinearGradient(0, 230, 0, 50);
+
+                gradientStroke_1.addColorStop(1, 'rgba(66,134,121,0.15)');
+                gradientStroke_1.addColorStop(0.4, 'rgba(66,134,121,0.0)'); //green colors
+                gradientStroke_1.addColorStop(0, 'rgba(66,134,121,0)'); //green colors
+
+                var data_1 = {
+                    labels: Clases3,
+                    datasets: [{
+                        label: "Driscepancia en Pre",
+                        fill: true,
+                        backgroundColor: gradientStroke_1,
+                        borderColor: '#4bc2c5',
+                        borderWidth: 2,
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        pointBackgroundColor: '#4bc2c5',
+                        pointBorderColor: 'rgba(255,255,255,0)',
+                        pointHoverBackgroundColor: '#4bc2c5',
+                        pointBorderWidth: 20,
+                        pointHoverRadius: 4,
+                        pointHoverBorderWidth: 15,
+                        pointRadius: 4,
+                        data: Turno3_Pre
+                    }, {
+                        label: "Driscepancia en Post",
+                        fill: true,
+                        backgroundColor: gradientStroke_1,
+                        borderColor: '#F02E2E',
+                        borderWidth: 2,
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        pointBackgroundColor: '#F02E2E',
+                        pointBorderColor: 'rgba(255,255,255,0)',
+                        pointHoverBackgroundColor: '#F02E2E',
+                        pointBorderWidth: 20,
+                        pointHoverRadius: 4,
+                        pointHoverBorderWidth: 15,
+                        pointRadius: 4,
+                        data: Turno3_Post
+
+                    }]
+                }
+
+                var myChart_1 = new Chart(ctx_1, {
+                    type: 'line',
+                    data: data_1,
+
+                });
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>

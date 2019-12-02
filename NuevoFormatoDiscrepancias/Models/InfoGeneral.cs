@@ -53,6 +53,7 @@ namespace NuevoFormatoDiscrepancias.Models
         public string Eficiencia_Dia_Pre { get; set; }
         public string Eficiencia_Dia_Post { get; set; }
         public string Cruces { get; set; }
+        public string TipoTabla { get; set; }
 
     }
 

@@ -5,17 +5,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=.9, shrink-to-fit=no">
     <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
-    <link href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.2.620/js/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.2.620/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.2.620/js/kendo.aspnetmvc.min.js"></script>
+
+    <link href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Scripts/css/anim.css" rel="stylesheet" />
     <link href="~/Scripts/css/estilos.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/black-dashboard-html-v1.0.1/assets/js/plugins/chartjs.min.js">
 
-    @Scripts.Render("~/bundles/jquery")
-    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/jszip.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/kendo.all.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/kendo.aspnetmvc.min.js"></script>
+
     @RenderSection("scripts", required: false)
 
 </head>
@@ -33,21 +42,24 @@
                 <li class="nav-item">
                     @Html.ActionLink("Discrepancias", "Index", "Home", new { area = "" }, new { @class = " nav-link" })
                 </li>
-                <li class="nav-item">
+                @*<li class="nav-item">
                     @Html.ActionLink("Rango De Fechas", "IndexSecundario", "Home", new { area = "" }, new { @class = " nav-link" })
-                </li>
+                </li>*@
                 <li class="nav-item">
                     @*@Html.ActionLink("Graficas", "IndexGraficas", "Home", new { area = "" }, new { @class = " nav-link" })*@
                 </li>
             </ul>
         </div>
     </nav>
-    <div class="container ">
+    <div class="container-fluid" style="padding-top: 5em;">
         @RenderBody()
-
+</div>
         <div class="footer">
             <p class="footertext">©2018 Proyectos y Sistemas Informáticos S.A. de C.V. Todos los Derechos Reservados.</p>
         </div>
-    </div>
+        
 </body>
+
+
+
 </html>
