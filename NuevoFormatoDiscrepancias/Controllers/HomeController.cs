@@ -12,6 +12,7 @@ using System.Web.UI.WebControls;
 using NuevoFormatoDiscrepancias.Servicios;
 using static NuevoFormatoDiscrepancias.Servicios.Querys;
 using System.Web.Routing;
+using System.IO;
 
 namespace NuevoFormatoDiscrepancias.Controllers
 {
@@ -87,60 +88,66 @@ namespace NuevoFormatoDiscrepancias.Controllers
             var plazas = new List<SelectListItem>()
                 {
                 new SelectListItem()
-                {
+                               {
                     Text = "Seleccione una Plaza",
                     Value = "00"
                 },
-                new SelectListItem()
+                 new SelectListItem()
                 {
-                    Text = "Cerro Gordo",
-                    Value = "P186"
+                    Text = "Laboratorio",
+                    Value = "OracleCN"
                 },
                 new SelectListItem()
                 {
-                    Text = "Tepotzotlan",
-                    Value = "P187"
+                    Text = "ALPUYECA",
+                    Value = "P101"
                 },
                 new SelectListItem()
                 {
-                    Text = "Jorobas",
-                    Value = "P188"
+                    Text = "PASO MORELOS",
+                    Value = "P102"
                 },
                 new SelectListItem()
                 {
-                    Text = "Polotitlan",
-                    Value = "P189"
+                    Text = "PALO BLANCO",
+                    Value = "P103"
                 },
                 new SelectListItem()
                 {
-                    Text = "Libramiento",
-                    Value = "P190"
+                    Text = "LA VENTA",
+                    Value = "P104"
                 },
                 new SelectListItem()
                 {
-                    Text = "Queretaro",
-                    Value = "P191"
+                    Text = "XOCHITEPEC",
+                    Value = "P105"
+                },
+                new SelectListItem()
+                {
+                    Text = "AEROPUERTO",
+                    Value = "P106"
                 },
                     new SelectListItem()
                 {
-                    Text = "Villagrán",
-                    Value = "P192"
+                    Text = "EMILIANO ZAPATA",
+                    Value = "P107"
                 },
                 new SelectListItem()
                 {
-                    Text = "Salamanca",
-                    Value = "P193"
+                    Text = "TLALPAN",
+                    Value = "P108"
                 },
                     new SelectListItem()
                 {
-                    Text = "Palmillas",
-                    Value = "P194"
+                    Text = "TRES MARIAS",
+                    Value = "P169"
                 },
                 new SelectListItem()
                 {
-                    Text = "Chichimequillas",
-                    Value = "P195"
+                    Text = "FRANCISCO VELASCO",
+                    Value = "P184"
                 },
+
 
             };
             return Json(plazas, JsonRequestBehavior.AllowGet);
@@ -159,7 +166,10 @@ namespace NuevoFormatoDiscrepancias.Controllers
                 else
                 {
 
-                    
+                    try
+                    {
+
+            
                     string conexion = ConfigurationManager.ConnectionStrings[Plaza].ConnectionString;
                     OracleConnection connection = new OracleConnection(conexion);
                     if (connection.State != ConnectionState.Open)
@@ -190,6 +200,27 @@ namespace NuevoFormatoDiscrepancias.Controllers
                     connection.Close();
 
                     return Json(carrl, JsonRequestBehavior.AllowGet);
+                    }
+                    catch (Exception info)
+                    {
+                        string path = @"C:\LogDiscrepancias";
+                        if (!Directory.Exists(path))
+                            Directory.CreateDirectory(path);
+                        string logFile = $@"{path}\log.txt";
+                        string error = $"{DateTime.Now:dd/MM/yyyy hh:mm:ss}: Line: {Convert.ToInt32(info.StackTrace.Substring(info.StackTrace.LastIndexOf(" ") + 1))} {info.Message}";
+                        if (System.IO.File.Exists(logFile))
+                        {
+                            using (StreamWriter sw = System.IO.File.AppendText(logFile))
+                            {
+                                sw.WriteLine(error);
+                            }
+                            //System.IO.File.AppendText(error);
+                        }
+                        else
+                        {
+                            System.IO.File.WriteAllText(logFile, error);
+                        }
+                    }
                 }
             }
 
